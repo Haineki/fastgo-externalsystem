@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="FastGo-GetRoutes-Implementation-suite.xml" />
+	<munit:test name="FastGo-GetRoutes-ImplementationSub_Flow-test" doc:id="678dd48e-7c9c-4922-8ce2-91a6049c8c98" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Select" doc:id="9d1f067f-8344-4162-a44f-45571f0ee069" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0d575a07-8200-4cb6-b843-35acc35fb4c9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java  --- readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\mock_payload.dwl')]" mediaType="application/java " encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="serviceType" value="#[output application/java --- readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\mock_variable_.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="transactionId" value="#[output application/java --- readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Transform Message" doc:id="2053b3d2-e35d-4980-8284-9269456712f4" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="381f7adc-e2e7-486f-9292-897241609f20" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="cede3de7-85b8-474b-9704-f6eb6b82aedb" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import FastGoGetRoutesImplementationSubFlowtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="e162362a-e3c8-4f5f-8089-8d6d92fd9892" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import FastGoGetRoutesImplementationSubFlowtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="14cdd11d-ba51-41e3-a26a-ac56938fec6d" >
+				<munit:payload value="#[readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="serviceType" value="#[output application/java --- readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\set-event_variable_.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="transactionId" value="#[output application/java --- readUrl('classpath://FastGoGetRoutesImplementationSubFlowtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to FastGo-GetRoutes-ImplementationSub_Flow" doc:id="60815ecf-8101-4ed5-9c16-097f57ea9efe" name="FastGo-GetRoutes-ImplementationSub_Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="ef5dd397-6433-4124-bc40-4d0e51eb27b9" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import FastGoGetRoutesImplementationSubFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Transform Message" doc:id="24f70904-38eb-4452-86bd-4d74be1e3dc9" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="381f7adc-e2e7-486f-9292-897241609f20" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
